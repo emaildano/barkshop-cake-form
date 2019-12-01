@@ -2,7 +2,7 @@ import React from "react"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import OrderForm from "../components/order-form"
+import OrderForm from "../components/order-form/index"
 import '../styles/main.scss'
 
 const IndexPage = () => (
