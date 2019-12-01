@@ -16,8 +16,8 @@ import SubmitOrderForm from "./submit-order-form"
 const OrderForm = () => {
   return (
     <Container>
-      <Row>
-        <Col>
+      <Row className="justify-content-center">
+        <Col md="8">
           <Form>
             <PickupDate />
             <CakeType />

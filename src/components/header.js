@@ -1,21 +1,15 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
-import {
-  Container,
-  Row,
-  Col
-} from "reactstrap"
+import { Container, Row, Col } from "reactstrap"
 
 const Header = ({ siteTitle }) => (
   <header>
     <Container>
       <Row>
-        <Col>
+        <Col className="text-center">
           <h1>
-            <Link to="/">
-              {siteTitle}
-            </Link>
+            <Link to="/">{siteTitle}</Link>
           </h1>
         </Col>
       </Row>
