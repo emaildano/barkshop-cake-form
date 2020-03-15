@@ -67,16 +67,14 @@ const PickupDate = () => {
 
 const Message = () => (
   <FormSection title="Cake Message ✏️">
-    <div>
-      <label for="message">Message</label>
-    </div>
-    <Field
-      id="message"
-      name="message"
-      component="textarea"
-      type="textarea"
-      placeholder=""
-    />
+    <Field name="message">
+      {props => (
+        <FormGroup>
+          <Label for="message">Message</Label>
+          <Input type="textarea" name="message" id="message" onChange={props.input.onChange} />
+        </FormGroup>
+      )}
+    </Field>
     <Error name="message" />
   </FormSection>
 )
@@ -208,6 +206,11 @@ const OrderForm = () => (
       <Row className="justify-content-center">
         <Col md="8">
           <Form
+            mutators={{
+              catCake: (args, state, utils) => {
+                utils.changeValue(state, "flavorType", () => "bonito")
+              },
+            }}
             onSubmit={onSubmit}
             initialValues={{}}
             validate={values => {
