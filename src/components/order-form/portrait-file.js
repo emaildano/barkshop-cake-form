@@ -1,6 +1,6 @@
 import React from "react"
 import Dropzone from "react-dropzone"
-import { Card, CardBody, CardHeader } from "reactstrap"
+import { Card, CardBody, CardHeader, Button } from "reactstrap"
 
 const PortraitFile = () => {
   return (
@@ -12,7 +12,7 @@ const PortraitFile = () => {
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Upload portrait photo</p>
+                <Button>Upload Photo</Button>
               </div>
             </section>
           )}
