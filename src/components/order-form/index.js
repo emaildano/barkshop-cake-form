@@ -209,7 +209,7 @@ const OrderForm = () => (
         <Col md="8">
           <Form
             onSubmit={onSubmit}
-            // initialValues={{ employed: true, stooge: "larry" }}
+            initialValues={{}}
             validate={values => {
               const errors = {}
               if (!values.cakeType) {
