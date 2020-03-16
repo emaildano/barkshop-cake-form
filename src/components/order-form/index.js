@@ -32,12 +32,10 @@ const Error = ({ name }) => (
   </Field>
 )
 
-const Condition = ({ when, is, isNot, children }) => {
+const Condition = ({ when, is, children }) => {
   return (
     <Field name={when} subscription={{ value: true }}>
-      {({ input: { value } }) => (
-        is ? value.indexOf(is) > -1 ? children : null : isNot ? value.indexOf(isNot) <= -1 ? children : null : null
-      )}
+      {({ input: { value } }) => (value.indexOf(is) > -1 ? children : null)}
     </Field>
   )
 }
@@ -51,20 +49,52 @@ const FormSection = ({ children, title }) => (
   </Card>
 )
 
+const PetType = () => {
+  const petTypes = [
+    { title: "Dog", id: "dog" },
+    { title: "Cat", id: "cat" },
+  ]
+  return (
+    <FormSection title="Cat or Dog 🐶😸">
+      {petTypes.map(item => {
+        return (
+          <Field name="petType">
+            {props => (
+              <FormGroup check key={item.id}>
+                <Label check>
+                  <Input
+                    type="radio"
+                    name="petType"
+                    value={item.id}
+                    onChange={props.input.onChange}
+                  />{" "}
+                  {item.title}
+                </Label>
+              </FormGroup>
+            )}
+          </Field>
+        )
+      })}
+      <Error name="petType" />
+    </FormSection>
+  )
+}
+
 const PickupDate = () => {
   const [startDate, setStartDate] = useState(new Date())
   return (
     <FormSection title="Pickup Date 📅">
       <DatePicker
         name="date"
-        selected={startDate}
+        // selected={addDays(new Date(), 3)}
         isClearable
         withPortal
         onChange={date => setStartDate(date)}
         minDate={addDays(new Date(), 3)}
-        placeholderText="Select a date other than today or yesterday"
+        placeholderText="Select a pickup date"
         className="form-control"
       />
+      <Error name="date" />
     </FormSection>
   )
 }
@@ -89,36 +119,67 @@ const Message = () => (
   </FormSection>
 )
 
-const CakeType = () => {
+const CakeTypeDog = () => {
   const cakeTypes = [
     { title: "4 Inch", id: "4-inch" },
     { title: "6 Inch", id: "6-inch" },
     { title: "6 Inch Portrait", id: "6-inch-portrait" },
-    { title: "4 Inch Bonito Cat Cake", id: "4-inch-cat-cake" },
   ]
   return (
-    <FormSection title="Type 🎂">
-      {cakeTypes.map(item => {
-        return (
-          <Field name="cakeType">
-            {props => (
-              <FormGroup check key={item.id}>
-                <Label check>
-                  <Input
-                    type="radio"
-                    name="cakeType"
-                    value={item.id}
-                    onChange={props.input.onChange}
-                  />{" "}
-                  {item.title}
-                </Label>
-              </FormGroup>
-            )}
-          </Field>
-        )
-      })}
-      <Error name="cakeType" />
-    </FormSection>
+    <Condition when="petType" is="dog">
+      <FormSection title="Dog Cake Options 🎂">
+        {cakeTypes.map(item => {
+          return (
+            <Field name="cakeType">
+              {props => (
+                <FormGroup check key={item.id}>
+                  <Label check>
+                    <Input
+                      type="radio"
+                      name="cakeType"
+                      value={item.id}
+                      onChange={props.input.onChange}
+                    />{" "}
+                    {item.title}
+                  </Label>
+                </FormGroup>
+              )}
+            </Field>
+          )
+        })}
+        <Error name="cakeType" />
+      </FormSection>
+    </Condition>
+  )
+}
+
+const CakeTypeCat = () => {
+  const cakeTypes = [{ title: "4 Inch", id: "4-inch-cat-cake" }]
+  return (
+    <Condition when="petType" is="cat">
+      <FormSection title="Cat Cake Options 🎂">
+        {cakeTypes.map(item => {
+          return (
+            <Field name="cakeType">
+              {props => (
+                <FormGroup check key={item.id}>
+                  <Label check>
+                    <Input
+                      type="radio"
+                      name="cakeType"
+                      value={item.id}
+                      onChange={props.input.onChange}
+                    />{" "}
+                    {item.title}
+                  </Label>
+                </FormGroup>
+              )}
+            </Field>
+          )
+        })}
+        <Error name="cakeType" />
+      </FormSection>
+    </Condition>
   )
 }
 
@@ -145,7 +206,6 @@ const CakeFlavor = () => {
     { title: "Peanut Butter & Banana", id: "peanut-butter" },
     { title: "Bacon Flax", id: "bacon" },
     { title: "Cheesesteak", id: "cheesesteak" },
-    { title: "Bonito Flake", id: "bonito" },
   ]
   return (
     <Condition when="cakeType" isNot={["4-inch-cat-cake"]}>
@@ -182,28 +242,30 @@ const CakeTheme = () => {
     { title: "Create your own!", id: "custom" },
   ]
   return (
-    <FormSection title="Theme 🎈">
-      {cakeThemes.map(item => {
-        return (
-          <Field name="themeType">
-            {props => (
-              <FormGroup check key={item.id}>
-                <Label check>
-                  <Input
-                    type="radio"
-                    name="themeType"
-                    value={item.id}
-                    onChange={props.input.onChange}
-                  />{" "}
-                  {item.title}
-                </Label>
-              </FormGroup>
-            )}
-          </Field>
-        )
-      })}
-      <Error name="themeType" />
-    </FormSection>
+    <Condition when="petType" is="dog">
+      <FormSection title="Theme 🎈">
+        {cakeThemes.map(item => {
+          return (
+            <Field name="themeType">
+              {props => (
+                <FormGroup check key={item.id}>
+                  <Label check>
+                    <Input
+                      type="radio"
+                      name="themeType"
+                      value={item.id}
+                      onChange={props.input.onChange}
+                    />{" "}
+                    {item.title}
+                  </Label>
+                </FormGroup>
+              )}
+            </Field>
+          )
+        })}
+        <Error name="themeType" />
+      </FormSection>
+    </Condition>
   )
 }
 
@@ -228,6 +290,12 @@ const OrderForm = () => (
             initialValues={{}}
             validate={values => {
               const errors = {}
+              if (!values.petType) {
+                errors.petType = <Alert color="warning">Required</Alert>
+              }
+              if (!values.date) {
+                errors.date = <Alert color="warning">Required</Alert>
+              }
               if (!values.cakeType) {
                 errors.cakeType = <Alert color="warning">Required</Alert>
               }
@@ -242,8 +310,10 @@ const OrderForm = () => (
           >
             {({ handleSubmit, form, submitting, pristine, values }) => (
               <form onSubmit={handleSubmit}>
+                <PetType />
                 <PickupDate />
-                <CakeType />
+                <CakeTypeDog />
+                <CakeTypeCat />
                 <Portrait />
                 <CakeFlavor />
                 <CakeTheme />
