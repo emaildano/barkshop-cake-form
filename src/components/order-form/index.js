@@ -32,11 +32,13 @@ const Error = ({ name }) => (
   </Field>
 )
 
-const Condition = ({ when, is, children }) => {
-  console.log(is, when)
+const Condition = ({ when, is, isNot, children }) => {
+  console.log(is)
   return (
     <Field name={when} subscription={{ value: true }}>
-      {({ input: { value } }) => (value.includes(is) ? children : null)}
+      {({ input: { value } }) => (
+        value.includes(is) || !value.includes(isNot) ? children : null
+      )}
     </Field>
   )
 }
@@ -121,7 +123,7 @@ const CakeType = () => {
 }
 
 const Portrait = () => (
-  <Condition when="cakeType" is="6-inch-portrait">
+  <Condition when="cakeType" is={["6-inch-portrait"]}>
     <FormSection title="Portrait Photo 🐶">
       <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
         {({ getRootProps, getInputProps }) => (
@@ -146,7 +148,7 @@ const CakeFlavor = () => {
     { title: "Bonito Flake", id: "bonito" },
   ]
   return (
-    <Condition when="cakeType" is={["4-inch", "6-inch"]}>
+    <Condition when="cakeType" isNot={["4-inch-cat-cake"]}>
       <FormSection title="Flavor 🥓">
         {cakeFlavors.map(item => {
           return (
