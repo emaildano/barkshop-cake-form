@@ -63,7 +63,6 @@ const PickupDate = () => {
         withPortal
         onChange={date => setStartDate(date)}
         minDate={addDays(new Date(), 3)}
-        // excludeDates={[new Date(), addDays(new Date(), 1)]}
         placeholderText="Select a date other than today or yesterday"
         className="form-control"
       />
@@ -203,6 +202,7 @@ const CakeTheme = () => {
           </Field>
         )
       })}
+      <Error name="themeType" />
     </FormSection>
   )
 }
@@ -233,6 +233,9 @@ const OrderForm = () => (
               }
               if (!values.flavorType) {
                 errors.flavorType = <Alert color="warning">Required</Alert>
+              }
+              if (!values.themeType) {
+                errors.themeType = <Alert color="warning">Required</Alert>
               }
               return errors
             }}
