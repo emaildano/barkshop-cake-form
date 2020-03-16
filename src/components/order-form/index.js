@@ -15,7 +15,7 @@ import {
   Alert,
 } from "reactstrap"
 import DatePicker from "react-datepicker"
-import subDays from "date-fns/subDays"
+import addDays from "date-fns/addDays"
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -62,7 +62,8 @@ const PickupDate = () => {
         isClearable
         withPortal
         onChange={date => setStartDate(date)}
-        excludeDates={[new Date(), subDays(new Date(), 1)]}
+        minDate={addDays(new Date(), 3)}
+        // excludeDates={[new Date(), addDays(new Date(), 1)]}
         placeholderText="Select a date other than today or yesterday"
         className="form-control"
       />
