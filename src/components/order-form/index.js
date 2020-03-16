@@ -105,19 +105,20 @@ const PickupDate = () => {
   )
 }
 
-const Message = () => (
+const Message = (values) => (
   <FormSection title="Cake Message ✏️">
     <Field name="message">
       {props => (
         <FormGroup>
-          <Label for="message">Message</Label>
+          <Label for="message">Message {values.values.petType === 'cat' ? 6 : 12} characters max</Label>
           <Input
-            maxLength={100}
+            maxLength={values.values.petType === 'cat' ? 6 : 12}
             type="textarea"
             name="message"
             id="message"
             onChange={props.input.onChange}
           />
+          {console.log(values.values.petType)}
         </FormGroup>
       )}
     </Field>
@@ -323,9 +324,9 @@ const OrderForm = () => (
                 <Portrait />
                 <CakeFlavor />
                 <CakeTheme />
-                <Message />
+                <Message values={values} />
                 <Submit submitting={submitting} />
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
+                <pre className="bg-light p-5 my-5">{JSON.stringify(values, 0, 2)}</pre>
               </form>
             )}
           </Form>
