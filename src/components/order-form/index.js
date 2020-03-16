@@ -84,16 +84,22 @@ const PickupDate = () => {
   const [startDate, setStartDate] = useState(new Date())
   return (
     <FormSection title="Pickup Date 📅">
-      <DatePicker
-        name="date"
-        // selected={addDays(new Date(), 3)}
-        isClearable
-        withPortal
-        onChange={date => setStartDate(date)}
-        minDate={addDays(new Date(), 3)}
-        placeholderText="Select a pickup date"
-        className="form-control"
-      />
+      <Field name="date">
+        {props => (
+          <DatePicker
+            name="date"
+            isClearable
+            withPortal
+            selected={startDate}
+            id="date"
+            onSelect={date => setStartDate(date)}
+            onChange={date => setStartDate(date)}
+            minDate={addDays(new Date(), 3)}
+            placeholderText="Select a pickup date"
+            className="form-control"
+          />
+        )}
+      </Field>
       <Error name="date" />
     </FormSection>
   )
