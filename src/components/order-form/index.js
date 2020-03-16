@@ -33,11 +33,10 @@ const Error = ({ name }) => (
 )
 
 const Condition = ({ when, is, isNot, children }) => {
-  console.log(is)
   return (
     <Field name={when} subscription={{ value: true }}>
       {({ input: { value } }) => (
-        value.includes(is) || !value.includes(isNot) ? children : null
+        is ? value.indexOf(is) > -1 ? children : null : isNot ? value.indexOf(isNot) <= -1 ? children : null : null
       )}
     </Field>
   )
@@ -77,6 +76,7 @@ const Message = () => (
         <FormGroup>
           <Label for="message">Message</Label>
           <Input
+            maxLength={100}
             type="textarea"
             name="message"
             id="message"
