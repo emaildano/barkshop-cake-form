@@ -32,11 +32,14 @@ const Error = ({ name }) => (
   </Field>
 )
 
-const Condition = ({ when, is, children }) => (
-  <Field name={when} subscription={{ value: true }}>
-    {({ input: { value } }) => (value === is ? children : null)}
-  </Field>
-)
+const Condition = ({ when, is, children }) => {
+  console.log(is, when)
+  return (
+    <Field name={when} subscription={{ value: true }}>
+      {({ input: { value } }) => (value.includes(is) ? children : null)}
+    </Field>
+  )
+}
 
 const FormSection = ({ children, title }) => (
   <Card className="mb-3">
@@ -71,7 +74,12 @@ const Message = () => (
       {props => (
         <FormGroup>
           <Label for="message">Message</Label>
-          <Input type="textarea" name="message" id="message" onChange={props.input.onChange} />
+          <Input
+            type="textarea"
+            name="message"
+            id="message"
+            onChange={props.input.onChange}
+          />
         </FormGroup>
       )}
     </Field>
@@ -84,7 +92,7 @@ const CakeType = () => {
     { title: "4 Inch", id: "4-inch" },
     { title: "6 Inch", id: "6-inch" },
     { title: "6 Inch Portrait", id: "6-inch-portrait" },
-    { title: "4 Inch Kitty Cake", id: "4-inch-kitty" },
+    { title: "4 Inch Bonito Cat Cake", id: "4-inch-cat-cake" },
   ]
   return (
     <FormSection title="Type 🎂">
@@ -138,28 +146,30 @@ const CakeFlavor = () => {
     { title: "Bonito Flake", id: "bonito" },
   ]
   return (
-    <FormSection title="Flavor 🥓">
-      {cakeFlavors.map(item => {
-        return (
-          <Field name="flavorType">
-            {props => (
-              <FormGroup check key={item.id}>
-                <Label check>
-                  <Input
-                    type="radio"
-                    name="flavorType"
-                    value={item.id}
-                    onChange={props.input.onChange}
-                  />{" "}
-                  {item.title}
-                </Label>
-              </FormGroup>
-            )}
-          </Field>
-        )
-      })}
-      <Error name="flavorType" />
-    </FormSection>
+    <Condition when="cakeType" is={["4-inch", "6-inch"]}>
+      <FormSection title="Flavor 🥓">
+        {cakeFlavors.map(item => {
+          return (
+            <Field name="flavorType">
+              {props => (
+                <FormGroup check key={item.id}>
+                  <Label check>
+                    <Input
+                      type="radio"
+                      name="flavorType"
+                      value={item.id}
+                      onChange={props.input.onChange}
+                    />{" "}
+                    {item.title}
+                  </Label>
+                </FormGroup>
+              )}
+            </Field>
+          )
+        })}
+        <Error name="flavorType" />
+      </FormSection>
+    </Condition>
   )
 }
 
